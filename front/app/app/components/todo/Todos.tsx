@@ -29,7 +29,6 @@ const Todos = () => {
     // Todo一覧を取得する関数を呼び出す
     fetchTodos();
   }, []);
-  console.log(todos);
 
   return (
     <div className="space-y-6 w-3/4 max-w-lg pt-10">
