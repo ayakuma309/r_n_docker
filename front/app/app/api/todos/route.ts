@@ -18,3 +18,14 @@ export const updateTodo = async (
   const updatedTodo = await res.json();
   return updatedTodo;
 };
+
+export const deleteTodo = async (id: number): Promise<TodoType> => {
+  const res = await fetch(`${baseUrl}/api/v1/todos/${id}`, {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+  const deleteTodo = await res.json();
+  return deleteTodo;
+};

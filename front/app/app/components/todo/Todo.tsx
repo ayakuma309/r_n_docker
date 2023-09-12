@@ -1,10 +1,12 @@
 'use client'
-import { updateTodo } from '@/app/api/todos/route'
+import { deleteTodo, updateTodo } from '@/app/api/todos/route'
 import { TodoType } from '@/app/types/Todo'
 import { useEffect, useRef, useState } from 'react'
+import { useRouter } from "next/navigation";
 
 // Todo一つを表示するコンポーネント
 const Todo = ({ todo }: { todo: TodoType }) => {
+  const router = useRouter();
   const inputRef = useRef<HTMLInputElement>(null)
   const [isEditing, setIsEditing] = useState(false)
   const [editedTitle, setEditedTitle] = useState(todo.title)
@@ -23,13 +25,17 @@ const Todo = ({ todo }: { todo: TodoType }) => {
   const handleSaveButtonClick = async () => {
     await updateTodo(todo.id, editedTitle, editedDescription)
     setIsEditing(false)
-    window.location.reload();
+    router.refresh();
   }
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setEditedTitle(event.target.value)
   }
 
+  const handleDelete = async () => {
+    await deleteTodo(todo.id);
+    router.refresh();
+  }
   return (
     <div className="focus:outline-none mb-7 bg-white p-6 shadow rounded">
       {isEditing ? (
@@ -68,7 +74,7 @@ const Todo = ({ todo }: { todo: TodoType }) => {
       {isEditing ? (
         <div
           onClick={handleSaveButtonClick}
-          className="h-5 w-5 text-blue-500 hover:text-blue-700 cursor-pointer mr-3"
+          className="flex items-start justify-between w-full cursor-pointer"
         >
           保存
         </div>
@@ -76,9 +82,15 @@ const Todo = ({ todo }: { todo: TodoType }) => {
         <>
           <div
             onClick={handleEditButtonClick}
-            className="h-5 w-5 text-green-400 hover:text-green-700 cursor-pointer mr-3"
+            className="flex items-start justify-between w-full cursor-pointer"
           >
             編集
+          </div>
+          <div
+            onClick={handleDelete}
+            className="flex items-start justify-between w-full cursor-pointer"
+          >
+            削除
           </div>
         </>
       )}
