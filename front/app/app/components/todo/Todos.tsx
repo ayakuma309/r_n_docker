@@ -3,7 +3,6 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 
 import Todo from './Todo';
-import Link from 'next/link';
 import { TodoType } from '@/app/types/Todo';
 
 // Todo一覧を表示するコンポーネント
@@ -35,12 +34,7 @@ const Todos = () => {
       <label className="block text-xl font-bold text-gray-700">Todo Index</label>
       <div className="items-center justify-center">
         {todos.map((todo) => (
-          <Link
-            href={`todos/${todo.id}`}
-            key={todo.id}
-          >
-            <Todo todo={todo} />
-          </Link>
+          <Todo todo={todo} key={todo.id}/>
         ))}
       </div>
     </div>
