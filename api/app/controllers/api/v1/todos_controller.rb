@@ -31,9 +31,10 @@ module Api
           render json: @todo.errors, status: :unprocessable_entity
         end
       end
-      
+
       def destroy
-        if @lyric.destroy
+        @todo = Todo.find(params[:id])
+        if @todo.destroy
           head :no_content
         else
           render_error('Failed to destroy', :unprocessable_entity)
