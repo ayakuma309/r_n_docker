@@ -5,3 +5,8 @@ export type TodoType = {
   is_complete: boolean;
   priority: number;
 };
+
+export type CreateTodoType = {
+  title: string;
+  description: string;
+};

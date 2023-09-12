@@ -1,34 +1,21 @@
 'use client'
-
+import { addTodo } from "@/app/api/todos/route";
+import { useRouter } from "next/navigation";
 import { useState } from 'react';
-import axios from 'axios';
 
 // Todoを作成するフォーム
 const TodoForm = () => {
   // フォームの入力値を管理するstate
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
+  const [title, setTitle] = useState<string>('');
+  const [description, setDescription] = useState<string>('');
+  const router = useRouter();
 
-  // フォームの入力値を更新する関数
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    try {
-      // APIを呼び出して、Todoを作成する
-      await axios.post('http://localhost:3000/api/v1/todos', {
-        todo: {
-          title,
-          description,
-        },
-      });
-      // Todoの作成に成功したら、フォームの入力値をリセットする
-
-      setTitle('');
-      setDescription('');
-      // ページをリロードする
-      window.location.reload();
-    } catch (error) {
-      console.error(error);
-    }
+    await addTodo({ title: title, description: description});
+    setTitle("");
+    setDescription("");
+    router.refresh();
   };
 
   return (
